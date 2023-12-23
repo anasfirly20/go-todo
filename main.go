@@ -4,12 +4,16 @@ import (
 	"log"
 	"todo-api/controllers"
 	"todo-api/initializers"
+	"todo-api/routes"
 
 	"github.com/gin-gonic/gin"
 )
 
 var (
 	server *gin.Engine
+
+	TaskController controllers.TaskController
+	TaskRouteController routes.TaskRouteController
 )
 
 func init() {
@@ -20,6 +24,9 @@ func init() {
 
 	initializers.ConnectDB(&config)
 
+	TaskController = controllers.NewTaskController(initializers.DB)
+	TaskRouteController = routes.NewTaskRouteController(TaskController)
+
 	server = gin.Default()
 }
 
@@ -29,12 +36,9 @@ func main() {
 		log.Fatal("Could not load environment variables", err)
 	}
 
-	router := server.Group("/tasks")
-	router.GET("/", controllers.GetTasks)
-	router.POST("/", controllers.CreateTask)
-	router.GET("/:id", controllers.GetTaskById)
-	router.PATCH("/:id", controllers.UpdateTask)
-	router.DELETE("/:id", controllers.DeleteTask)
+	router := server.Group("/api")
+	
+	TaskRouteController.TaskRoute(router)
 
 	log.Fatal(server.Run(":" + config.ServerPort))
 }
