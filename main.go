@@ -33,9 +33,8 @@ func main() {
 	router.GET("/", controllers.GetTasks)
 	router.POST("/", controllers.CreateTask)
 	router.GET("/:id", controllers.GetTaskById)
+	router.PATCH("/:id", controllers.UpdateTask)
+	router.DELETE("/:id", controllers.DeleteTask)
 
 	log.Fatal(server.Run(":" + config.ServerPort))
 }
-
-
-

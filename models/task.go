@@ -11,8 +11,14 @@ type Task struct {
 	UpdatedAt time.Time
 }
 
-type CreateTask struct {
+type CreateTaskInput struct {
 	Title string `json:"title" binding:"required"`
+	Description string `json:"description"`
+	IsCompleted string `json:"isCompleted"`
+}
+
+type UpdateTaskInput struct {
+	Title 		string `json:"title"`
 	Description string `json:"description"`
 	IsCompleted string `json:"isCompleted"`
 }
