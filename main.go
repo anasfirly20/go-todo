@@ -6,6 +6,7 @@ import (
 	"todo-api/initializers"
 	"todo-api/routes"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -35,7 +36,13 @@ func main() {
 	if err != nil {
 		log.Fatal("Could not load environment variables", err)
 	}
+	
+	corsConfig := cors.DefaultConfig()
+	corsConfig.AllowOrigins = []string{"http://localhost:8000", config.ClientOrigin}
+	corsConfig.AllowCredentials = true
 
+	server.Use(cors.New(corsConfig))
+	
 	router := server.Group("/api")
 	
 	TaskRouteController.TaskRoute(router)

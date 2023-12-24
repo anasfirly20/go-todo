@@ -15,8 +15,8 @@ func NewTaskRouteController(taskController controllers.TaskController) TaskRoute
 }
 
 func (rc *TaskRouteController) TaskRoute(rg *gin.RouterGroup) {
-	router := rg.Group("/task")
-
+	router := rg.Group("/tasks")
+	
 	router.GET("/", rc.taskController.GetTasks)
 	router.GET("/:id", rc.taskController.GetTaskById)
 	router.POST("/", rc.taskController.CreateTask)
